@@ -1,7 +1,12 @@
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 
+import SelectStatus from "../../../../shared/components/SelectStatus";
 import type { CardNewModalProps } from "./types";
-import type { CardProps } from "../../../../types/types";
+import type {
+  CardProps,
+  CardStatus,
+  CardPriority,
+} from "../../../../types/types";
 import {
   useModalEsc,
   handleOverlayClick,
@@ -13,25 +18,46 @@ export default function CardNewModal({
   onClose,
   onSubmit,
 }: CardNewModalProps) {
+  useModalEsc(onClose, isOpen);
+
+  // Refs for form fields
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
 
-  useModalEsc(onClose, isOpen);
+  const [status, setStatus] = useState<CardStatus>("todo");
+  const statusOptions: CardStatus[] = ["todo", "in-progress", "done"];
+  const onSelectStatus = useCallback((status: string) => {
+    setStatus(status as CardStatus);
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const cardTitle = titleRef.current?.value.trim() || "";
-    const description = descriptionRef.current?.value.trim() || "";
-    const date = dateRef.current?.value || "";
-    if (cardTitle && description && date) {
-      onSubmit({
-        title: cardTitle,
-        description,
-        dateCreated: date,
-      } as CardProps);
-    }
-  };
+  const [priority, setPriority] = useState<CardPriority>("low");
+  const priorityOptions: CardPriority[] = ["low", "medium", "high"];
+  const onSelectPriority = useCallback((priority: string) => {
+    setPriority(priority as CardPriority);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const cardTitle = titleRef.current?.value.trim() || "";
+      const description = descriptionRef.current?.value.trim() || "";
+      const date = dateRef.current?.value || "";
+      if (cardTitle && priority) {
+        onSubmit({
+          id: crypto.randomUUID(),
+          title: cardTitle,
+          description,
+          status,
+          dateCreated: date,
+          priority,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        } as CardProps);
+      }
+    },
+    [onSubmit, status, priority]
+  );
 
   if (!isOpen) return null;
 
@@ -78,7 +104,6 @@ export default function CardNewModal({
             placeholder="설명을 입력하세요"
             className="border rounded px-3 py-2 min-h-[60px] focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
             maxLength={200}
-            required
           />
         </label>
         <label className="flex flex-col gap-1">
@@ -87,10 +112,19 @@ export default function CardNewModal({
             ref={dateRef}
             type="date"
             className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
           />
         </label>
-
+        <SelectStatus
+          items={statusOptions}
+          value={status}
+          onChange={onSelectStatus}
+        />
+        <SelectStatus
+          items={priorityOptions}
+          value={priority}
+          onChange={onSelectPriority}
+          required
+        />
         <button
           type="submit"
           className="bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"

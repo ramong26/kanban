@@ -4,7 +4,6 @@ export type CardStatus = "todo" | "in-progress" | "done";
 export interface CardProps {
   id: string;
   title: string;
-  description: string;
   status: CardStatus;
   dateCreated: string;
   priority: CardPriority;
@@ -14,6 +13,7 @@ export interface CardProps {
   /**
    * @description optional
    */
+  description?: string;
   tags?: string[];
   assignee?: string;
   dueDate?: string;
