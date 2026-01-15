@@ -15,25 +15,33 @@ export default function Collumn({ title }: CollumnProps) {
   // first render load from local storage
   const [cards, setCards] = useState<CardProps[]>(() => {
     const storedCards = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+    let loadedCards: CardProps[] = [];
     if (storedCards) {
       try {
         const parsed = JSON.parse(storedCards);
-        if (typeof parsed === "object" && parsed !== null) {
-          return Array.isArray(parsed[title]) ? parsed[title] : [];
+        if (
+          typeof parsed === "object" &&
+          parsed !== null &&
+          Array.isArray(parsed[title])
+        ) {
+          loadedCards = parsed[title];
         }
       } catch (error) {
         console.error("Failed to parse stored cards:", error);
       }
     }
-    return mockCards.filter(
-      (card) =>
-        card.status ===
-        (title === "To Do"
-          ? "todo"
-          : title === "In Progress"
-          ? "in-progress"
-          : "done")
-    );
+    if (loadedCards.length === 0) {
+      loadedCards = mockCards.filter(
+        (card) =>
+          card.status ===
+          (title === "To Do"
+            ? "todo"
+            : title === "In Progress"
+            ? "in-progress"
+            : "done")
+      );
+    }
+    return loadedCards;
   });
 
   // Add Card Handler
