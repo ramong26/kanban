@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import type { ColumnNewModalProps } from "./types";
 
+import { useEsc, handleOverlayClick } from "../../../../hooks/useEsc";
 const LOCAL_STORAGE_KEY = "kanban-columns";
 
 export default function ColumnNewModal({
@@ -11,22 +12,11 @@ export default function ColumnNewModal({
 }: ColumnNewModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [isOpen, onClose]);
+  useEsc(onClose, isOpen);
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
-
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
-  };
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -46,7 +36,7 @@ export default function ColumnNewModal({
   return (
     <div
       className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-      onClick={handleOverlayClick}
+      onClick={(e) => handleOverlayClick(e, onClose)}
       role="dialog"
       aria-modal="true"
     >
@@ -84,10 +74,3 @@ export default function ColumnNewModal({
     </div>
   );
 }
-
-// /**
-//  * TODO
-//  * 컬럼 추가 모달 구현
-//  * esc, 바깥 클릭 시 모달 닫기
-//  * 로컬로 컬럼 추가 기능 구현
-//  */
