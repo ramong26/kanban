@@ -1,4 +1,4 @@
-import type { CardProps } from "../../../../types/types";
+import type { CardProps } from "../types/types";
 
 export const mockCards: CardProps[] = [
   {
@@ -120,5 +120,23 @@ export const mockCards: CardProps[] = [
     description: "설명 10",
     tags: [],
     assignee: "홍길동",
+  },
+];
+
+export const mockColumns = [
+  {
+    id: "1",
+    title: "To Do",
+    cards: mockCards.filter((card) => card.status === "todo"),
+  },
+  {
+    id: "2",
+    title: "In Progress",
+    cards: mockCards.filter((card) => card.status === "in-progress"),
+  },
+  {
+    id: "3",
+    title: "Done",
+    cards: mockCards.filter((card) => card.status === "done"),
   },
 ];
