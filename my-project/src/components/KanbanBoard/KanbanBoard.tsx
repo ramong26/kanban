@@ -3,21 +3,9 @@ import Collumn from "./Collumn";
 import NewCollumn from "./NewCollumn";
 
 const LOCAL_STORAGE_KEY = "kanban-columns";
+const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
 export default function KanbanBoard() {
-  const items = [
-    {
-      title: "Sample Task 1",
-      content: "This is a sample task.",
-      dateCreated: new Date(),
-    },
-    {
-      title: "Sample Task 2",
-      content: "Thi is another sample task.",
-      dateCreated: new Date(),
-    },
-  ];
-
   // First Render Load from Local Storage
   const [collumns, setCollumns] = useState<string[]>(() => {
     const storedCollumns = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -33,6 +21,36 @@ export default function KanbanBoard() {
     }
     return [];
   });
+
+  const [cards, setCards] = useState(() => {
+    const storedCards = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+    if (storedCards) {
+      try {
+        const parsed = JSON.parse(storedCards);
+        return typeof parsed === "object" && parsed !== null ? parsed : {};
+      } catch (error) {
+        console.error("Failed to parse stored cards:", error);
+        localStorage.removeItem(LOCAL_STORAGE_CARDS_KEY);
+        return {};
+      }
+    }
+    return {};
+  });
+
+  // Get Cards By Column Title
+  const getCardsByColumn = (columnTitle: string) => {
+    const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+    if (!raw) return [];
+    try {
+      const cardsByColumn = JSON.parse(raw);
+
+      return Array.isArray(cardsByColumn[columnTitle])
+        ? cardsByColumn[columnTitle]
+        : [];
+    } catch {
+      return [];
+    }
+  };
 
   // Add New Collumn Handler
   const handleAddCollumn = useCallback(
@@ -64,20 +82,46 @@ export default function KanbanBoard() {
     },
     [collumns]
   );
+
+  // Add Card Handler
+  const handleAddCard = useCallback(
+    (
+      columnTitle: string,
+      card: { title: string; content: string; dateCreated: string }
+    ) => {
+      const prevCards = cards[columnTitle] || [];
+      const updatedCards = {
+        ...cards,
+        [columnTitle]: [...prevCards, card],
+      };
+      setCards(updatedCards);
+      localStorage.setItem(
+        LOCAL_STORAGE_CARDS_KEY,
+        JSON.stringify(updatedCards)
+      );
+    },
+    [cards]
+  );
+
   return (
     <div className="flex-col  p-4  bg-gray-100 min-h-screen">
       <NewCollumn onAddCollumn={handleAddCollumn} />
       <div className="flex space-x-4">
-        <Collumn title="To Do" items={items} />
-        <Collumn title="In Progress" />
-        <Collumn title="Done" />
-        {collumns.map((title, index) => (
+        {["To Do", "In Progress", "Done", ...collumns].map((title, index) => (
           <Collumn
-            edit
-            key={index}
+            edit={index >= 3}
+            key={title}
             title={title}
-            onEdit={(newTitle) => handleEditCollumn(index, newTitle)}
-            onDelete={() => handleDeleteCollumn(index)}
+            items={getCardsByColumn(title)}
+            onAddCard={handleAddCard}
+            onEdit={
+              index >= 3
+                ? (newTitle) => handleEditCollumn(index - 3, newTitle)
+                : undefined
+            }
+            onDelete={
+              index >= 3 ? () => handleDeleteCollumn(index - 3) : undefined
+            }
           />
         ))}
       </div>

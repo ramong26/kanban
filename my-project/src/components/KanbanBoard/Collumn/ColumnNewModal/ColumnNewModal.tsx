@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import type { ColumnNewModalProps } from "./types";
 
-import { useEsc, handleOverlayClick } from "../../../../hooks/useEsc";
+import { useModalEsc, handleOverlayClick } from "../../../../hooks/useModalEsc";
 const LOCAL_STORAGE_KEY = "kanban-columns";
 
 export default function ColumnNewModal({
@@ -12,7 +12,7 @@ export default function ColumnNewModal({
 }: ColumnNewModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEsc(onClose, isOpen);
+  useModalEsc(onClose, isOpen);
 
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
