@@ -2,19 +2,12 @@ import { useCallback, useState } from "react";
 
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
-import ColumnNewModal from "./ColumnNewModal";
 import type { CollumnProps } from "./types";
 import type { CardProps } from "../../../types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
-export default function Collumn({
-  edit,
-  title,
-  onEdit,
-  onDelete,
-}: CollumnProps) {
-  const [openCollumnModal, setOpenCollumnModal] = useState(false);
+export default function Collumn({ title }: CollumnProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
 
   // first render load from local storage
@@ -59,30 +52,6 @@ export default function Collumn({
       <div className="bg-white rounded-lg shadow-lg p-4 w-80 min-h-[200px] flex flex-col">
         <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
           <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-          {edit && (
-            <div className="flex gap-2">
-              {onEdit && (
-                <button
-                  type="button"
-                  className="text-gray-400 hover:text-gray-700 text-sm px-3 py-1 rounded hover:bg-gray-100 transition-colors"
-                  onClick={() => setOpenCollumnModal(true)}
-                  aria-label="수정"
-                >
-                  수정
-                </button>
-              )}
-              {onDelete && (
-                <button
-                  type="button"
-                  className="text-gray-400 hover:text-red-600 text-sm px-3 py-1 rounded hover:bg-gray-100 transition-colors"
-                  onClick={onDelete}
-                  aria-label="삭제"
-                >
-                  삭제
-                </button>
-              )}
-            </div>
-          )}
         </div>
         <div className="flex-1 space-y-3">
           {cards.length > 0 ? (
@@ -99,17 +68,7 @@ export default function Collumn({
           + 카드 추가
         </button>
       </div>
-      {openCollumnModal && onEdit && (
-        <ColumnNewModal
-          title="컬럼 이름 수정"
-          isOpen={openCollumnModal}
-          onClose={() => setOpenCollumnModal(false)}
-          onSubmit={(newTitle) => {
-            onEdit(newTitle);
-            setOpenCollumnModal(false);
-          }}
-        />
-      )}
+
       {openCardModal && (
         <CardNewModal
           isOpen={openCardModal}
