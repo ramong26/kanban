@@ -1,5 +1,5 @@
-import Layout from "./components/Layout";
-import KanbanBoard from "./components/KanbanBoard";
+import Layout from "./shared/components/Layout";
+import KanbanBoard from "./feature/components/KanbanBoard";
 
 import "./App.css";
 

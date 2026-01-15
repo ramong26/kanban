@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
 import type { CollumnProps } from "./types";
-import type { CardProps } from "../../../types/types";
+import type { CardProps } from "../../../../types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 

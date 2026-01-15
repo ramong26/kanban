@@ -1,8 +1,11 @@
 import { useRef } from "react";
 
 import type { CardNewModalProps } from "./types";
-import type { CardProps } from "../../../types/types";
-import { useModalEsc, handleOverlayClick } from "../../../hooks/useModalEsc";
+import type { CardProps } from "../../../../types/types";
+import {
+  useModalEsc,
+  handleOverlayClick,
+} from "../../../../shared/hooks/useModalEsc";
 
 export default function CardNewModal({
   type = "create",
@@ -87,6 +90,7 @@ export default function CardNewModal({
             required
           />
         </label>
+
         <button
           type="submit"
           className="bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"
