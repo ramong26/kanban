@@ -2,9 +2,11 @@ import { useCallback, useState } from "react";
 
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
+
 import type { CollumnProps } from "./types";
 import type { CardProps } from "../../../../types/types";
 
+import { mockCards } from "./mock";
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
 export default function Collumn({ title }: CollumnProps) {
@@ -23,7 +25,15 @@ export default function Collumn({ title }: CollumnProps) {
         console.error("Failed to parse stored cards:", error);
       }
     }
-    return [];
+    return mockCards.filter(
+      (card) =>
+        card.status ===
+        (title === "To Do"
+          ? "todo"
+          : title === "In Progress"
+          ? "in-progress"
+          : "done")
+    );
   });
 
   // Add Card Handler
