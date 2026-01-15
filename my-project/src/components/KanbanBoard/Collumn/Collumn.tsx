@@ -1,8 +1,10 @@
 import { useCallback, useState } from "react";
+
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
 import ColumnNewModal from "./ColumnNewModal";
 import type { CollumnProps } from "./types";
+import type { CardProps } from "../../../types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
@@ -16,9 +18,7 @@ export default function Collumn({
   const [openCardModal, setOpenCardModal] = useState(false);
 
   // first render load from local storage
-  const [cards, setCards] = useState<
-    { title: string; content: string; dateCreated: string }[]
-  >(() => {
+  const [cards, setCards] = useState<CardProps[]>(() => {
     const storedCards = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
     if (storedCards) {
       try {
@@ -35,16 +35,13 @@ export default function Collumn({
 
   // Add Card Handler
   const handleAddCard = useCallback(
-    (card: { title: string; content: string; dateCreated: string }) => {
+    (card: CardProps) => {
       const updatedCards = [...cards, card];
       setCards(updatedCards);
 
       // localStorage 전체 카드 데이터 가져와서 업데이트
       const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
-      let allCards: Record<
-        string,
-        { title: string; content: string; dateCreated: string }[]
-      > = {};
+      let allCards: Record<string, CardProps[]> = {};
       if (raw) {
         try {
           allCards = JSON.parse(raw);

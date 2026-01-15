@@ -1,5 +1,7 @@
 import { useRef } from "react";
+
 import type { CardNewModalProps } from "./types";
+import type { CardProps } from "../../../types/types";
 import { useModalEsc, handleOverlayClick } from "../../../hooks/useModalEsc";
 
 export default function CardNewModal({
@@ -20,7 +22,7 @@ export default function CardNewModal({
     const content = contentRef.current?.value.trim() || "";
     const date = dateRef.current?.value || "";
     if (cardTitle && content && date) {
-      onSubmit({ title: cardTitle, content, dateCreated: date });
+      onSubmit({ title: cardTitle, content, dateCreated: date } as CardProps);
     }
   };
 

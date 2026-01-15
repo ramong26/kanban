@@ -1,4 +1,4 @@
-import type { CardProps } from "./types";
+import type { CardProps } from "../../../types/types";
 
 export default function Card({ item }: { item?: CardProps }) {
   return (
