@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ColumnNewModal from "../Collumn/ColumnNewModal";
+import type { NewCollumnProps } from "./types";
 
-export default function NewCollumn() {
+export default function NewCollumn({ onAddCollumn }: NewCollumnProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -16,6 +17,7 @@ export default function NewCollumn() {
         <ColumnNewModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
+          onSubmit={onAddCollumn}
         />
       )}
     </>

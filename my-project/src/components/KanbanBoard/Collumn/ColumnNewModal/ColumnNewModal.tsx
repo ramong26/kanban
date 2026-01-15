@@ -4,8 +4,10 @@ import type { ColumnNewModalProps } from "./types";
 const LOCAL_STORAGE_KEY = "kanban-columns";
 
 export default function ColumnNewModal({
+  title = "새 컬럼 추가",
   isOpen,
   onClose,
+  onSubmit,
 }: ColumnNewModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,10 +34,11 @@ export default function ColumnNewModal({
       const value = inputRef.current?.value.trim();
       if (value) {
         localStorage.setItem(LOCAL_STORAGE_KEY, value);
+        onSubmit(value);
         onClose();
       }
     },
-    [onClose]
+    [onClose, onSubmit]
   );
 
   if (!isOpen) return null;
@@ -53,7 +56,7 @@ export default function ColumnNewModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-bold">새 컬럼 추가</h2>
+          <h2 className="text-lg font-bold">{title}</h2>
           <button
             type="button"
             className="text-gray-400 hover:text-gray-700 text-xl"
@@ -75,7 +78,7 @@ export default function ColumnNewModal({
           type="submit"
           className="bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"
         >
-          추가
+          저장
         </button>
       </form>
     </div>
