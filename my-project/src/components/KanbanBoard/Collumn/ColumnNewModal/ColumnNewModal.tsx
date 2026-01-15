@@ -59,7 +59,7 @@ export default function ColumnNewModal({
           <h2 className="text-lg font-bold">{title}</h2>
           <button
             type="button"
-            className="text-gray-400 hover:text-gray-700 text-xl"
+            className="text-gray-600 hover:text-gray-700 text-xl py-1 px-2"
             onClick={onClose}
             aria-label="닫기"
           >

@@ -55,6 +55,15 @@ export default function KanbanBoard() {
     [collumns]
   );
 
+  // Delete Collumn Handler
+  const handleDeleteCollumn = useCallback(
+    (index: number) => {
+      const updated = collumns.filter((_, i) => i !== index);
+      setCollumns(updated);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
+    },
+    [collumns]
+  );
   return (
     <div className="flex-col  p-4  bg-gray-100 min-h-screen">
       <NewCollumn onAddCollumn={handleAddCollumn} />
@@ -64,9 +73,11 @@ export default function KanbanBoard() {
         <Collumn title="Done" />
         {collumns.map((title, index) => (
           <Collumn
+            edit
             key={index}
             title={title}
             onEdit={(newTitle) => handleEditCollumn(index, newTitle)}
+            onDelete={() => handleDeleteCollumn(index)}
           />
         ))}
       </div>
