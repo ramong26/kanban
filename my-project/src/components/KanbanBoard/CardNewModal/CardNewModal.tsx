@@ -11,7 +11,7 @@ export default function CardNewModal({
   onSubmit,
 }: CardNewModalProps) {
   const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
 
   useModalEsc(onClose, isOpen);
@@ -19,10 +19,14 @@ export default function CardNewModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cardTitle = titleRef.current?.value.trim() || "";
-    const content = contentRef.current?.value.trim() || "";
+    const description = descriptionRef.current?.value.trim() || "";
     const date = dateRef.current?.value || "";
-    if (cardTitle && content && date) {
-      onSubmit({ title: cardTitle, content, dateCreated: date } as CardProps);
+    if (cardTitle && description && date) {
+      onSubmit({
+        title: cardTitle,
+        description,
+        dateCreated: date,
+      } as CardProps);
     }
   };
 
@@ -67,7 +71,7 @@ export default function CardNewModal({
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-gray-700">설명</span>
           <textarea
-            ref={contentRef}
+            ref={descriptionRef}
             placeholder="설명을 입력하세요"
             className="border rounded px-3 py-2 min-h-[60px] focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
             maxLength={200}
