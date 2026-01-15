@@ -39,7 +39,6 @@ export default function Collumn({
       const updatedCards = [...cards, card];
       setCards(updatedCards);
 
-      // localStorage 전체 카드 데이터 가져와서 업데이트
       const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
       let allCards: Record<string, CardProps[]> = {};
       if (raw) {
