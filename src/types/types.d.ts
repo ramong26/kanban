@@ -18,9 +18,3 @@ export interface CardProps {
   assignee?: string;
   dueDate?: string;
 }
-
-export interface ColumnProps {
-  id: string;
-  title: string;
-  cards: CardProps[];
-}
