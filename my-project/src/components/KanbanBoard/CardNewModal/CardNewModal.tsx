@@ -20,7 +20,7 @@ export default function CardNewModal({
     const content = contentRef.current?.value.trim() || "";
     const date = dateRef.current?.value || "";
     if (cardTitle && content && date) {
-      onSubmit(cardTitle, content, date);
+      onSubmit({ title: cardTitle, content, dateCreated: date });
     }
   };
 

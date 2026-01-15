@@ -1,19 +1,62 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
 import ColumnNewModal from "./ColumnNewModal";
 import type { CollumnProps } from "./types";
 
+const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
+
 export default function Collumn({
   edit,
   title,
-  items,
-  onAddCard,
   onEdit,
   onDelete,
 }: CollumnProps) {
   const [openCollumnModal, setOpenCollumnModal] = useState(false);
   const [openCardModal, setOpenCardModal] = useState(false);
+
+  // first render load from local storage
+  const [cards, setCards] = useState<
+    { title: string; content: string; dateCreated: string }[]
+  >(() => {
+    const storedCards = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+    if (storedCards) {
+      try {
+        const parsed = JSON.parse(storedCards);
+        if (typeof parsed === "object" && parsed !== null) {
+          return Array.isArray(parsed[title]) ? parsed[title] : [];
+        }
+      } catch (error) {
+        console.error("Failed to parse stored cards:", error);
+      }
+    }
+    return [];
+  });
+
+  // Add Card Handler
+  const handleAddCard = useCallback(
+    (card: { title: string; content: string; dateCreated: string }) => {
+      const updatedCards = [...cards, card];
+      setCards(updatedCards);
+
+      // localStorage 전체 카드 데이터 가져와서 업데이트
+      const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+      let allCards: Record<
+        string,
+        { title: string; content: string; dateCreated: string }[]
+      > = {};
+      if (raw) {
+        try {
+          allCards = JSON.parse(raw);
+        } catch {
+          allCards = {};
+        }
+      }
+      allCards[title] = updatedCards;
+      localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
+    },
+    [cards, title]
+  );
 
   return (
     <>
@@ -46,8 +89,8 @@ export default function Collumn({
           )}
         </div>
         <div className="flex-1 space-y-3">
-          {items && items.length > 0 ? (
-            items.map((item, idx) => <Card key={idx} item={item} />)
+          {cards.length > 0 ? (
+            cards.map((item, idx) => <Card key={idx} item={item} />)
           ) : (
             <p className="text-gray-400 text-sm">카드가 없습니다</p>
           )}
@@ -71,12 +114,12 @@ export default function Collumn({
           }}
         />
       )}
-      {openCardModal && onAddCard && (
+      {openCardModal && (
         <CardNewModal
           isOpen={openCardModal}
           onClose={() => setOpenCardModal(false)}
-          onSubmit={(cardTitle, content, date) => {
-            onAddCard(title, { title: cardTitle, content, dateCreated: date });
+          onSubmit={(card) => {
+            handleAddCard(card);
             setOpenCardModal(false);
           }}
         />

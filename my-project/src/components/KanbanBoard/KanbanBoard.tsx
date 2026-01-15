@@ -22,21 +22,6 @@ export default function KanbanBoard() {
     return [];
   });
 
-  const [cards, setCards] = useState(() => {
-    const storedCards = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
-    if (storedCards) {
-      try {
-        const parsed = JSON.parse(storedCards);
-        return typeof parsed === "object" && parsed !== null ? parsed : {};
-      } catch (error) {
-        console.error("Failed to parse stored cards:", error);
-        localStorage.removeItem(LOCAL_STORAGE_CARDS_KEY);
-        return {};
-      }
-    }
-    return {};
-  });
-
   // Get Cards By Column Title
   const getCardsByColumn = (columnTitle: string) => {
     const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
@@ -83,26 +68,6 @@ export default function KanbanBoard() {
     [collumns]
   );
 
-  // Add Card Handler
-  const handleAddCard = useCallback(
-    (
-      columnTitle: string,
-      card: { title: string; content: string; dateCreated: string }
-    ) => {
-      const prevCards = cards[columnTitle] || [];
-      const updatedCards = {
-        ...cards,
-        [columnTitle]: [...prevCards, card],
-      };
-      setCards(updatedCards);
-      localStorage.setItem(
-        LOCAL_STORAGE_CARDS_KEY,
-        JSON.stringify(updatedCards)
-      );
-    },
-    [cards]
-  );
-
   return (
     <div className="flex-col  p-4  bg-gray-100 min-h-screen">
       <NewCollumn onAddCollumn={handleAddCollumn} />
@@ -113,7 +78,6 @@ export default function KanbanBoard() {
             key={title}
             title={title}
             items={getCardsByColumn(title)}
-            onAddCard={handleAddCard}
             onEdit={
               index >= 3
                 ? (newTitle) => handleEditCollumn(index - 3, newTitle)
