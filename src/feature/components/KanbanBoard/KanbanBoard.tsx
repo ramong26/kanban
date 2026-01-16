@@ -5,6 +5,7 @@ import type { DropResult } from "@hello-pangea/dnd";
 import Collumn from "./Collumn";
 
 import type { CardProps, CardStatus } from "../../../types/types";
+import { mockCards } from "../../../shared/mock";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
@@ -31,11 +32,15 @@ function getInitialData() {
       });
       return data;
     }
+  } else {
+    const initialData: Record<string, CardProps[]> = {
+      "To Do": mockCards.filter((card) => card.status === "todo"),
+      "In Progress": mockCards.filter((card) => card.status === "in-progress"),
+      Done: mockCards.filter((card) => card.status === "done"),
+    };
+    localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(initialData));
+    return initialData;
   }
-  columnTitles.forEach((title) => {
-    data[title] = [];
-  });
-  return data;
 }
 
 export default function KanbanBoard() {
