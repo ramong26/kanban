@@ -5,6 +5,7 @@ import Card from "../Card";
 import CardNewModal from "../CardNewModal";
 import Dialog from "../../../../shared/components/Dialog";
 
+import { useSearchStore } from "../../../../stores/searchStore";
 import type { CollumnProps } from "./types";
 import type { CardProps } from "../../../../types/types";
 
@@ -12,6 +13,13 @@ const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
 export default function Collumn({ title, cards, setCards }: CollumnProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
+
+  // Search Store
+  const { query } = useSearchStore();
+
+  const filteredCards = cards.filter((card) =>
+    card.title.toLowerCase().includes(query.toLowerCase())
+  );
 
   // Add Card Handler
   const handleAddCard = useCallback(
@@ -104,8 +112,8 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
               <h2 className="text-lg font-bold text-gray-800">{title}</h2>
             </div>
             <div className="flex-1 space-y-3 overflow-auto">
-              {cards && cards.length > 0 ? (
-                cards.map((data: CardProps, idx: number) => (
+              {filteredCards && filteredCards.length > 0 ? (
+                filteredCards.map((data: CardProps, idx: number) => (
                   <Draggable key={data.id} draggableId={data.id} index={idx}>
                     {(provided, snapshot) => (
                       <div
