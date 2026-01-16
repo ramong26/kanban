@@ -19,7 +19,12 @@ const statusColor = {
   done: "bg-green-100 text-green-700",
 };
 
-export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
+export default function Card({
+  data,
+  onUpdate,
+  onDelete,
+  highlight,
+}: BaseCardProps) {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 
@@ -31,7 +36,7 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
           setOpenDetail(true);
         }}
       >
-        <div className="flex justify-between items-center mb-2">
+        <div className={`flex justify-between items-center mb-2 ${highlight}`}>
           <h3 className="text-base font-bold truncate whitespace-nowrap overflow-hidden text-ellipsis w-[100px] ">
             {data.title}
           </h3>
