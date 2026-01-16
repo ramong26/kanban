@@ -15,6 +15,7 @@ export default function CardNewModal({
   ...props
 }: CardNewModalProps) {
   const isEdit = props.type === "edit" && "data" in props;
+  const onDelete = isEdit && "onDelete" in props ? props.onDelete : undefined;
 
   useModalEsc(onClose, isOpen);
 
@@ -75,8 +76,6 @@ export default function CardNewModal({
     },
     [props, status, priority, onSubmit]
   );
-
-  if (!isOpen) return null;
 
   return (
     <div
@@ -145,12 +144,26 @@ export default function CardNewModal({
           onChange={onSelectPriority}
           required
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"
-        >
-          저장
-        </button>
+        <div className="flex justify-between items-center mt-4 gap-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"
+          >
+            저장
+          </button>
+          {isEdit && (
+            <button
+              type="button"
+              className="w-full bg-red-500 text-black rounded py-2 font-semibold hover:bg-red-600"
+              onClick={() => {
+                onDelete?.();
+                onClose();
+              }}
+            >
+              삭제
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

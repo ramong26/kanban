@@ -9,6 +9,7 @@ export interface BaseCardNewModalProps {
 interface EditCardNewModalProps extends BaseCardNewModalProps {
   type: "edit";
   data: CardProps;
+  onDelete?: () => void;
 }
 
 interface CreateCardNewModalProps extends BaseCardNewModalProps {

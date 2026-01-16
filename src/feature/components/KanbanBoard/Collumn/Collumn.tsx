@@ -54,6 +54,27 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
     },
     [cards, title, setCards]
   );
+
+  // Delete Card Handler (Delete Card)
+  const handleDeleteCard = useCallback(
+    (id: string) => {
+      const updatedCards = cards.filter((card) => card.id !== id);
+      setCards(updatedCards);
+
+      const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+      let allCards: Record<string, CardProps[]> = {};
+      if (raw) {
+        try {
+          allCards = JSON.parse(raw);
+        } catch {
+          allCards = {};
+        }
+      }
+      allCards[title] = updatedCards;
+      localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
+    },
+    [cards, title, setCards]
+  );
   return (
     <>
       <Droppable droppableId={title}>
@@ -87,7 +108,11 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
                             : ""
                         }`}
                       >
-                        <Card item={item} onUpdate={onUpdateCard} />
+                        <Card
+                          item={item}
+                          onUpdate={onUpdateCard}
+                          onDelete={handleDeleteCard}
+                        />
                       </div>
                     )}
                   </Draggable>

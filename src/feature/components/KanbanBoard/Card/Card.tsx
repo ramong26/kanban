@@ -9,7 +9,7 @@ const priorityColor = {
   high: "bg-red-100 text-red-700",
 };
 
-export default function Card({ item, onUpdate }: BaseCardProps) {
+export default function Card({ item, onUpdate, onDelete }: BaseCardProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
 
   return (
@@ -74,6 +74,10 @@ export default function Card({ item, onUpdate }: BaseCardProps) {
           onClose={() => setOpenCardModal(false)}
           onSubmit={(updatedCard) => {
             onUpdate(updatedCard);
+            setOpenCardModal(false);
+          }}
+          onDelete={() => {
+            onDelete?.(item.id);
             setOpenCardModal(false);
           }}
         />
