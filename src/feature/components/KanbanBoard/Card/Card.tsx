@@ -78,7 +78,10 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
             setOpenDetail(false);
             setOpenEdit(true);
           }}
-          onDelete={onDelete}
+          onDelete={() => {
+            onDelete?.(data.id);
+            setOpenDetail(false);
+          }}
         />
       )}
       {openEdit && (

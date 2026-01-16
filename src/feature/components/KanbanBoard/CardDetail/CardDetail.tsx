@@ -1,3 +1,4 @@
+import { useModalEsc } from "../../../../shared/hooks/useModalEsc";
 import type { CardDetailProps } from "./types";
 
 export default function CardDetail({
@@ -7,6 +8,7 @@ export default function CardDetail({
   onUpdate,
   onDelete,
 }: CardDetailProps) {
+  useModalEsc(onClose, isOpen);
   if (!isOpen) return null;
 
   return (

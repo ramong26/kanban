@@ -1,3 +1,4 @@
+import { useModalEsc } from "../../hooks/useModalEsc";
 import type { DialogProps } from "./types";
 
 export default function Dialog({
@@ -7,6 +8,7 @@ export default function Dialog({
   title = "확인",
   message = "정말 삭제하시겠습니까?",
 }: DialogProps) {
+  useModalEsc(onClose, isOpen);
   if (!isOpen) return null;
 
   return (
