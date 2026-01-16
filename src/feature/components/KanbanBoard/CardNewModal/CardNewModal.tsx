@@ -23,6 +23,7 @@ export default function CardNewModal({
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
+  const tagsRef = useRef<HTMLInputElement>(null);
 
   const [status, setStatus] = useState<CardStatus>(
     isEdit ? props.data.status : "todo"
@@ -49,6 +50,9 @@ export default function CardNewModal({
       const title = titleRef.current?.value.trim() || "";
       const description = descriptionRef.current?.value.trim() || "";
       const dateCreated = dateRef.current?.value || "";
+      const tags = tagsRef.current?.value
+        ? tagsRef.current.value.split(",").map((tag) => tag.trim())
+        : [];
 
       if (isEdit) {
         onSubmit({
@@ -59,6 +63,7 @@ export default function CardNewModal({
           status,
           priority,
           updatedAt: new Date().toISOString(),
+          tags,
         });
       } else {
         onSubmit({
@@ -70,6 +75,7 @@ export default function CardNewModal({
           priority,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
+          tags,
         });
       }
     },
@@ -132,17 +138,37 @@ export default function CardNewModal({
             className="border-2 border-purple-200 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white transition-all"
           />
         </label>
-        <SelectStatus
-          data={statusOptions}
-          value={status}
-          onChange={onSelectStatus}
-        />
-        <SelectStatus
-          data={priorityOptions}
-          value={priority}
-          onChange={onSelectPriority}
-          required
-        />
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">태그</span>
+          <input
+            defaultValue={isEdit ? props.data.tags : ""}
+            ref={tagsRef}
+            type="text"
+            className="border-2 border-purple-200 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white transition-all"
+          />
+          <span className="text-xs text-gray-400">
+            쉼표(,)로 구분하여 여러 태그를 입력할 수 있습니다.
+          </span>
+        </label>
+
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">상태</span>
+          <SelectStatus
+            data={statusOptions}
+            value={status}
+            onChange={onSelectStatus}
+          />
+        </label>
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">우선순위</span>
+          <SelectStatus
+            data={priorityOptions}
+            value={priority}
+            onChange={onSelectPriority}
+            required
+          />
+        </label>
+
         <div className="flex justify-between items-center mt-4 gap-2">
           <button
             type="submit"
