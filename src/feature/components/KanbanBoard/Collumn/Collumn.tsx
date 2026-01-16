@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { Draggable } from "@hello-pangea/dnd";
 
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
@@ -6,43 +7,10 @@ import CardNewModal from "../CardNewModal";
 import type { CollumnProps } from "./types";
 import type { CardProps } from "../../../../types/types";
 
-import { mockCards } from "../../../../shared/mock";
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
-export default function Collumn({ title }: CollumnProps) {
+export default function Collumn({ title, cards, setCards }: CollumnProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
-
-  // first render load from local storage
-  const [cards, setCards] = useState<CardProps[]>(() => {
-    const storedCards = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
-    let loadedCards: CardProps[] = [];
-    if (storedCards) {
-      try {
-        const parsed = JSON.parse(storedCards);
-        if (
-          typeof parsed === "object" &&
-          parsed !== null &&
-          Array.isArray(parsed[title])
-        ) {
-          loadedCards = parsed[title];
-        }
-      } catch (error) {
-        console.error("Failed to parse stored cards:", error);
-      }
-    }
-    if (loadedCards.length === 0) {
-      loadedCards = mockCards.filter(
-        (card) =>
-          card.status ===
-          (title === "To Do"
-            ? "todo"
-            : title === "In Progress"
-            ? "in-progress"
-            : "done")
-      );
-    }
-    return loadedCards;
-  });
 
   // Add Card Handler
   const handleAddCard = useCallback(
@@ -62,7 +30,7 @@ export default function Collumn({ title }: CollumnProps) {
       allCards[title] = updatedCards;
       localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
     },
-    [cards, title]
+    [cards, title, setCards]
   );
 
   return (
@@ -72,8 +40,20 @@ export default function Collumn({ title }: CollumnProps) {
           <h2 className="text-lg font-bold text-gray-800">{title}</h2>
         </div>
         <div className="flex-1 space-y-3">
-          {cards.length > 0 ? (
-            cards.map((item, idx) => <Card key={idx} item={item} />)
+          {cards && cards.length > 0 ? (
+            cards.map((item: CardProps, idx: number) => (
+              <Draggable key={item.id} draggableId={item.id} index={idx}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <Card item={item} />
+                  </div>
+                )}
+              </Draggable>
+            ))
           ) : (
             <p className="text-gray-400 text-sm">카드가 없습니다</p>
           )}
