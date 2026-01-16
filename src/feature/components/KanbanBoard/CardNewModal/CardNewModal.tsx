@@ -60,7 +60,6 @@ export default function CardNewModal({
           priority,
           updatedAt: new Date().toISOString(),
         });
-        console.log(props.data);
       } else {
         onSubmit({
           id: crypto.randomUUID(),

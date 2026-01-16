@@ -25,7 +25,9 @@ export default function SelectStatus({
     >
       {data.map((item) => (
         <option key={item} value={item}>
-          {item === "low"
+          {item === "all"
+            ? "전체"
+            : item === "low"
             ? "낮음"
             : item === "medium"
             ? "중간"

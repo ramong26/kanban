@@ -4,22 +4,29 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
 import Dialog from "../../../../shared/components/Dialog";
+import SelectStatus from "../../../../shared/components/SelectStatus/SelectStatus";
 
 import { useSearchStore } from "../../../../stores/searchStore";
 import type { CollumnProps } from "./types";
-import type { CardProps } from "../../../../types/types";
+import type { CardProps, CardPriority } from "../../../../types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
 export default function Collumn({ title, cards, setCards }: CollumnProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
 
-  // Search Store
+  // Search and Filter
   const { query } = useSearchStore();
 
-  const filteredCards = cards.filter((card) =>
-    card.title.toLowerCase().includes(query.toLowerCase())
-  );
+  const priorityOptions: CardPriority[] = ["all", "high", "medium", "low"];
+  const [priority, setPriority] = useState<CardPriority>("all");
+  const onSelectPriority = useCallback((value: string) => {
+    setPriority(value as CardPriority);
+  }, []);
+
+  const filteredCards = cards
+    .filter((card) => card.title.toLowerCase().includes(query.toLowerCase()))
+    .filter((card) => (priority === "all" ? true : card.priority === priority));
 
   // Add Card Handler
   const handleAddCard = useCallback(
@@ -100,7 +107,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`bg-white rounded-lg shadow-lg p-4 w-80 min-h-[200px] h-[1500px] flex flex-col transition-all
+            className={`bg-white rounded-lg shadow-lg p-4 w-80 min-h-[200px] h-[70vh] flex flex-col transition-all
               ${
                 snapshot.isDraggingOver
                   ? "border-2 border-blue-400 bg-blue-50"
@@ -110,6 +117,11 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           >
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
               <h2 className="text-lg font-bold text-gray-800">{title}</h2>
+              <SelectStatus
+                data={priorityOptions}
+                value={priority}
+                onChange={onSelectPriority}
+              />
             </div>
             <div className="flex-1 space-y-3 overflow-auto">
               {filteredCards && filteredCards.length > 0 ? (

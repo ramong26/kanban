@@ -1,4 +1,4 @@
-export type CardPriority = "low" | "medium" | "high";
+export type CardPriority = "all" | "low" | "medium" | "high";
 export type CardStatus = "todo" | "in-progress" | "done";
 
 export interface CardProps {
