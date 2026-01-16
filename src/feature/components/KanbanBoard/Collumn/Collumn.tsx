@@ -129,16 +129,18 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
             <div className="flex justify-between items-center mb-5 pb-4 border-b-2 border-purple-200">
               <h2 className="text-2xl font-bold text-purple-700">{title}</h2>
 
-              <SelectStatus
-                data={priorityOptions}
-                value={priority}
-                onChange={onSelectPriority}
-              />
-              <SelectStatus
-                data={statusOptions}
-                value={status}
-                onChange={onSelectStatus}
-              />
+              <div className="flex items-center gap-3">
+                <SelectStatus
+                  data={priorityOptions}
+                  value={priority}
+                  onChange={onSelectPriority}
+                />
+                <SelectStatus
+                  data={statusOptions}
+                  value={status}
+                  onChange={onSelectStatus}
+                />
+              </div>
             </div>
             <div className="flex-1 space-y-3 overflow-y-auto overflow-x-hidden">
               {filteredCards && filteredCards.length > 0 ? (

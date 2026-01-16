@@ -18,13 +18,17 @@ export default function SelectStatus({
 
   return (
     <select
-      className="border border-gray-300 rounded-md p-2"
+      className="border border-[#d1c4e9] bg-[#f3e8ff] text-[#6d4c9b] rounded-xl p-2 px-4 shadow-md focus:outline-none focus:ring-2 focus:ring-[#b39ddb] transition hover:border-[#b39ddb] font-semibold"
       value={value}
       onChange={handleChange}
       required={required}
     >
       {data.map((item) => (
-        <option key={item} value={item}>
+        <option
+          key={item}
+          value={item}
+          className="bg-[#f3e8ff] text-[#6d4c9b] font-semibold"
+        >
           {item === "all"
             ? "전체"
             : item === "low"

@@ -35,28 +35,30 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
           <h3 className="text-base font-bold truncate whitespace-nowrap overflow-hidden text-ellipsis w-[100px] ">
             {data.title}
           </h3>
-          <span
-            className={`text-xs px-2 py-0.5 rounded ${
-              priorityColor[data.priority]
-            }`}
-          >
-            {data.priority === "low"
-              ? "낮음"
-              : data.priority === "medium"
-              ? "중간"
-              : "높음"}
-          </span>
-          <span
-            className={`text-xs px-2 py-0.5 rounded whitespace-nowrap overflow-hidden text-ellipsis ${
-              statusColor[data.status]
-            }`}
-          >
-            {data.status === "todo"
-              ? "#할 일"
-              : data.status === "in-progress"
-              ? "#진행 중"
-              : "#완료"}
-          </span>
+          <div className="flex gap-2">
+            <span
+              className={`text-xs px-2 py-0.5 rounded ${
+                priorityColor[data.priority]
+              }`}
+            >
+              {data.priority === "low"
+                ? "낮음"
+                : data.priority === "medium"
+                ? "중간"
+                : "높음"}
+            </span>
+            <span
+              className={`text-xs px-2 py-0.5 rounded whitespace-nowrap overflow-hidden text-ellipsis ${
+                statusColor[data.status]
+              }`}
+            >
+              {data.status === "todo"
+                ? "#할 일"
+                : data.status === "in-progress"
+                ? "#진행 중"
+                : "#완료"}
+            </span>
+          </div>
         </div>
         {data.description && (
           <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
