@@ -12,6 +12,13 @@ const priorityColor = {
   high: "bg-red-100 text-red-700",
 };
 
+const statusColor = {
+  all: "bg-gray-100 text-gray-700",
+  todo: "bg-blue-100 text-blue-700",
+  "in-progress": "bg-yellow-100 text-yellow-700",
+  done: "bg-green-100 text-green-700",
+};
+
 export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
   const [openDetail, setOpenDetail] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -25,7 +32,9 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
         }}
       >
         <div className="flex justify-between items-center mb-2">
-          <h3 className="text-base font-bold truncate">{data.title}</h3>
+          <h3 className="text-base font-bold truncate whitespace-nowrap overflow-hidden text-ellipsis w-[100px] ">
+            {data.title}
+          </h3>
           <span
             className={`text-xs px-2 py-0.5 rounded ${
               priorityColor[data.priority]
@@ -36,6 +45,17 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
               : data.priority === "medium"
               ? "중간"
               : "높음"}
+          </span>
+          <span
+            className={`text-xs px-2 py-0.5 rounded whitespace-nowrap overflow-hidden text-ellipsis ${
+              statusColor[data.status]
+            }`}
+          >
+            {data.status === "todo"
+              ? "#할 일"
+              : data.status === "in-progress"
+              ? "#진행 중"
+              : "#완료"}
           </span>
         </div>
         {data.description && (

@@ -8,7 +8,11 @@ import SelectStatus from "../../../../shared/components/SelectStatus/SelectStatu
 
 import { useSearchStore } from "../../../../stores/searchStore";
 import type { CollumnProps } from "./types";
-import type { CardProps, CardPriority } from "../../../../types/types";
+import type {
+  CardProps,
+  CardPriority,
+  CardStatus,
+} from "../../../../types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
@@ -24,9 +28,16 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
     setPriority(value as CardPriority);
   }, []);
 
+  const statusOptions: CardStatus[] = ["all", "todo", "in-progress", "done"];
+  const [status, setStatus] = useState<CardStatus>("all");
+  const onSelectStatus = useCallback((value: string) => {
+    setStatus(value as CardStatus);
+  }, []);
+
   const filteredCards = cards
     .filter((card) => card.title.toLowerCase().includes(query.toLowerCase()))
-    .filter((card) => (priority === "all" ? true : card.priority === priority));
+    .filter((card) => (priority === "all" ? true : card.priority === priority))
+    .filter((card) => (status === "all" ? true : card.status === status));
 
   // Add Card Handler
   const handleAddCard = useCallback(
@@ -117,10 +128,16 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           >
             <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
               <h2 className="text-lg font-bold text-gray-800">{title}</h2>
+
               <SelectStatus
                 data={priorityOptions}
                 value={priority}
                 onChange={onSelectPriority}
+              />
+              <SelectStatus
+                data={statusOptions}
+                value={status}
+                onChange={onSelectStatus}
               />
             </div>
             <div className="flex-1 space-y-3 overflow-auto">

@@ -1,5 +1,5 @@
 export type CardPriority = "all" | "low" | "medium" | "high";
-export type CardStatus = "todo" | "in-progress" | "done";
+export type CardStatus = "all" | "todo" | "in-progress" | "done";
 
 export interface CardProps {
   id: string;
