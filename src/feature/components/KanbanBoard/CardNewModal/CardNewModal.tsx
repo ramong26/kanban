@@ -84,52 +84,52 @@ export default function CardNewModal({
       aria-modal="true"
     >
       <form
-        className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xs flex flex-col gap-4"
+        className="bg-gradient-to-br from-white to-purple-50 rounded-3xl shadow-2xl p-10 w-full max-w-lg flex flex-col gap-6 border-2 border-purple-100"
         onSubmit={handleSubmit}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-bold">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-3xl font-bold text-purple-800">
             {props.type === "create" ? "카드 추가" : "카드 편집"}
           </h2>
           <button
             type="button"
-            className="text-gray-600 hover:text-gray-700 text-xl py-1 px-2"
+            className="text-purple-400 hover:text-purple-600 text-4xl py-1 px-2 transition-colors"
             onClick={onClose}
             aria-label="닫기"
           >
             ×
           </button>
         </div>
-        <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-700">제목</span>
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">제목</span>
           <input
             defaultValue={isEdit ? props.data.title : ""}
             ref={titleRef}
             type="text"
             placeholder="제목을 입력하세요"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             maxLength={40}
             required
           />
         </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-700">설명</span>
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">설명</span>
           <textarea
             defaultValue={isEdit ? props.data.description : ""}
             ref={descriptionRef}
             placeholder="설명을 입력하세요"
-            className="border rounded px-3 py-2 min-h-[60px] focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+            className="border-2 border-purple-200 rounded-xl px-5 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white resize-none transition-all"
             maxLength={200}
           />
         </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-700">마감 날짜</span>
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">마감 날짜</span>
           <input
             defaultValue={isEdit ? props.data.dateCreated : ""}
             ref={dateRef}
             type="date"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border-2 border-purple-200 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white transition-all"
           />
         </label>
         <SelectStatus
@@ -146,7 +146,7 @@ export default function CardNewModal({
         <div className="flex justify-between items-center mt-4 gap-2">
           <button
             type="submit"
-            className="w-full bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"
+            className="w-full bg-blue-500 text-black rounded py-2 font-semibold border-2 border-blue-600"
           >
             저장
           </button>

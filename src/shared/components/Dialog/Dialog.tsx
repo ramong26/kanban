@@ -13,18 +13,18 @@ export default function Dialog({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xs flex flex-col gap-4">
-        <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-        <p className="text-gray-700">{message}</p>
-        <div className="flex justify-end gap-2 mt-4">
+      <div className="bg-gradient-to-br from-white to-pink-50 rounded-3xl shadow-2xl p-10 w-full max-w-md flex flex-col gap-6 border-2 border-pink-100">
+        <h2 className="text-3xl font-bold text-pink-700">{title}</h2>
+        <p className="text-gray-700 text-base leading-relaxed">{message}</p>
+        <div className="flex justify-end gap-4 mt-6">
           <button
-            className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+            className="px-8 py-3 rounded-xl bg-purple-200 text-purple-700 hover:bg-purple-300 font-bold transition-colors border-2 border-purple-300"
             onClick={onClose}
           >
             취소
           </button>
           <button
-            className="px-4 py-2 rounded bg-red-500 text-gray-700 hover:bg-red-600"
+            className="px-8 py-3 rounded-xl bg-gradient-to-r from-pink-400 to-red-400 text-white hover:from-pink-500 hover:to-red-500 font-bold transition-all shadow-lg hover:shadow-xl"
             onClick={onConfirm}
           >
             삭제

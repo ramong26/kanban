@@ -118,16 +118,16 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`bg-white rounded-lg shadow-lg p-4 w-80 min-h-[200px] h-[70vh] flex flex-col transition-all
+            className={`rounded-2xl shadow-sm p-6 w-[450px] min-h-[300px] h-[65vh] flex flex-col transition-all
               ${
                 snapshot.isDraggingOver
-                  ? "border-2 border-blue-400 bg-blue-50"
-                  : "border border-gray-100"
+                  ? "border-2 border-purple-300 bg-purple-50"
+                  : "border-2 border-purple-100 bg-gradient-to-b from-purple-50 to-pink-50"
               }
             `}
           >
-            <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
-              <h2 className="text-lg font-bold text-gray-800">{title}</h2>
+            <div className="flex justify-between items-center mb-5 pb-4 border-b-2 border-purple-200">
+              <h2 className="text-2xl font-bold text-purple-700">{title}</h2>
 
               <SelectStatus
                 data={priorityOptions}
@@ -140,7 +140,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
                 onChange={onSelectStatus}
               />
             </div>
-            <div className="flex-1 space-y-3 overflow-auto">
+            <div className="flex-1 space-y-3 overflow-y-auto overflow-x-hidden">
               {filteredCards && filteredCards.length > 0 ? (
                 filteredCards.map((data: CardProps, idx: number) => (
                   <Draggable key={data.id} draggableId={data.id} index={idx}>
@@ -171,7 +171,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
             </div>
             <button
               type="button"
-              className="w-full mt-4 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors"
+              className="w-full mt-4 py-3 text-purple-600 hover:text-purple-700 hover:bg-purple-100 rounded-xl border-2 border-dashed border-purple-300 hover:border-purple-400 transition-all font-semibold"
               onClick={() => setOpenCardModal(true)}
             >
               + 카드 추가

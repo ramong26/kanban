@@ -26,7 +26,7 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
   return (
     <>
       <div
-        className="bg-white rounded-lg shadow-md p-4 mb-3 border border-gray-100 hover:shadow-lg transition-shadow"
+        className="bg-gradient-to-br from-white to-purple-50 rounded-2xl shadow-sm p-6 mb-4 border-2 border-purple-100 hover:shadow-lg hover:border-purple-200 hover:scale-[1.02] transition-all cursor-pointer"
         onClick={() => {
           setOpenDetail(true);
         }}
@@ -59,7 +59,7 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
           </span>
         </div>
         {data.description && (
-          <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
             {data.description}
           </p>
         )}
@@ -68,7 +68,7 @@ export default function Card({ data, onUpdate, onDelete }: BaseCardProps) {
             data.tags.map((tag, idx) => (
               <span
                 key={idx}
-                className="bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded"
+                className="bg-blue-200 text-blue-700 text-sm px-3 py-1 rounded-full font-medium border border-blue-300"
               >
                 #{tag}
               </span>

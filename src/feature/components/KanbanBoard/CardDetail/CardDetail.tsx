@@ -13,7 +13,7 @@ export default function CardDetail({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md flex flex-col gap-4 relative">
+      <div className="bg-gradient-to-br from-white to-purple-50 rounded-3xl shadow-2xl p-10 w-full max-w-2xl flex flex-col gap-6 relative border-2 border-purple-100">
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-2xl"
           onClick={onClose}
@@ -21,7 +21,9 @@ export default function CardDetail({
         >
           ×
         </button>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">{data.title}</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-3 pr-8">
+          {data.title}
+        </h2>
         <p className="text-gray-600 mb-2">{data.description}</p>
         <div className="flex flex-wrap gap-2 mb-2">
           {data.tags &&
@@ -63,15 +65,15 @@ export default function CardDetail({
               : "-"}
           </span>
         </div>
-        <div className="flex gap-2 mt-6">
+        <div className="flex gap-4 mt-10">
           <button
-            className="flex-1 bg-blue-500 text-black rounded py-2 font-semibold hover:bg-blue-600"
-            onClick={() => onUpdate(data)}
+            className="flex-1 bg-gradient-to-r from-purple-400 to-blue-400 text-white rounded-xl py-4 font-bold hover:from-purple-500 hover:to-blue-500 transition-all shadow-lg hover:shadow-xl"
+            onClick={() => onUpdate?.(data)}
           >
             편집
           </button>
           <button
-            className="flex-1 bg-red-500 text-black rounded py-2 font-semibold hover:bg-red-600"
+            className="flex-1 bg-gradient-to-r from-pink-400 to-red-400 text-white rounded-xl py-4 font-bold hover:from-pink-500 hover:to-red-500 transition-all shadow-lg hover:shadow-xl"
             onClick={() => onDelete?.(data.id)}
           >
             삭제
