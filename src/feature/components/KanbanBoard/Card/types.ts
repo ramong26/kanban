@@ -4,5 +4,5 @@ export interface BaseCardProps {
   data: CardProps;
   onUpdate: (card: CardProps) => void;
   onDelete?: (id: string) => void;
-  highlight?: string;
+  highlight?: boolean;
 }

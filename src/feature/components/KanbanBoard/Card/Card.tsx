@@ -36,7 +36,11 @@ export default function Card({
           setOpenDetail(true);
         }}
       >
-        <div className={`flex justify-between items-center mb-2 ${highlight}`}>
+        <div
+          className={`flex justify-between items-center mb-2 ${
+            highlight ? "text-red-500" : ""
+          }`}
+        >
           <h3 className="text-base font-bold truncate whitespace-nowrap overflow-hidden text-ellipsis w-[100px] ">
             {data.title}
           </h3>

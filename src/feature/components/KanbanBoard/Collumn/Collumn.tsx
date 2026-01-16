@@ -16,8 +16,6 @@ import type {
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
-const filterColor = "text-red-700";
-
 export default function Collumn({ title, cards, setCards }: CollumnProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
 
@@ -164,12 +162,12 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
                           onUpdate={onUpdateCard}
                           onDelete={() => handleDeleteCard(data.id)}
                           highlight={
-                            query &&
-                            data.title
-                              .toLowerCase()
-                              .includes(query.toLowerCase())
-                              ? filterColor
-                              : ""
+                            !!(
+                              query &&
+                              data.title
+                                .toLowerCase()
+                                .includes(query.toLowerCase())
+                            )
                           }
                         />
                       </div>
