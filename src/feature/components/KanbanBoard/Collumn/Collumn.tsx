@@ -3,6 +3,7 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
+import Dialog from "../../../../shared/components/Dialog";
 
 import type { CollumnProps } from "./types";
 import type { CardProps } from "../../../../types/types";
@@ -56,6 +57,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
   );
 
   // Delete Card Handler (Delete Card)
+  const [modalDialogOpen, setModalDialogOpen] = useState(false);
   const handleDeleteCard = useCallback(
     (id: string) => {
       const updatedCards = cards.filter((card) => card.id !== id);
@@ -70,9 +72,11 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           allCards = {};
         }
       }
+
       allCards[title] = updatedCards;
       localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
     },
+
     [cards, title, setCards]
   );
   return (
@@ -111,7 +115,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
                         <Card
                           item={item}
                           onUpdate={onUpdateCard}
-                          onDelete={handleDeleteCard}
+                          onDelete={() => setModalDialogOpen(true)}
                         />
                       </div>
                     )}
@@ -140,6 +144,19 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           onSubmit={(card) => {
             handleAddCard(card);
             setOpenCardModal(false);
+          }}
+        />
+      )}
+      {modalDialogOpen && (
+        <Dialog
+          title="카드 삭제"
+          isOpen={modalDialogOpen}
+          onClose={() => setModalDialogOpen(false)}
+          onConfirm={() => {
+            handleDeleteCard(
+              cards.find((card) => card.id === cards[0].id)?.id || ""
+            );
+            setModalDialogOpen(false);
           }}
         />
       )}
