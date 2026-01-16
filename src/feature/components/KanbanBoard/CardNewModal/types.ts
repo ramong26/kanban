@@ -1,10 +1,18 @@
 import type { CardProps } from "../../../../types/types";
 
-type CardNewModalTypes = "edit" | "create";
-
-export interface CardNewModalProps {
-  type?: CardNewModalTypes;
+export interface BaseCardNewModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (card: CardProps) => void;
 }
+
+interface EditCardNewModalProps extends BaseCardNewModalProps {
+  type: "edit";
+  data: CardProps;
+}
+
+interface CreateCardNewModalProps extends BaseCardNewModalProps {
+  type: "create";
+}
+
+export type CardNewModalProps = CreateCardNewModalProps | EditCardNewModalProps;

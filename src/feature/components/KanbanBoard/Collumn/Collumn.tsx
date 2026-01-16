@@ -33,6 +33,27 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
     [cards, title, setCards]
   );
 
+  // Update Card Handler (Edit Card)
+  const onUpdateCard = useCallback(
+    (updatedCard: CardProps) => {
+      const updatedCards = cards.map((card) =>
+        card.id === updatedCard.id ? updatedCard : card
+      );
+      setCards(updatedCards);
+      const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+      let allCards: Record<string, CardProps[]> = {};
+      if (raw) {
+        try {
+          allCards = JSON.parse(raw);
+        } catch {
+          allCards = {};
+        }
+      }
+      allCards[title] = updatedCards;
+      localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
+    },
+    [cards, title, setCards]
+  );
   return (
     <>
       <Droppable droppableId={title}>
@@ -66,7 +87,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
                             : ""
                         }`}
                       >
-                        <Card item={item} />
+                        <Card item={item} onUpdate={onUpdateCard} />
                       </div>
                     )}
                   </Draggable>
@@ -88,6 +109,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
       </Droppable>
       {openCardModal && (
         <CardNewModal
+          type="create"
           isOpen={openCardModal}
           onClose={() => setOpenCardModal(false)}
           onSubmit={(card) => {

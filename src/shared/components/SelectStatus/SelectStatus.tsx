@@ -4,7 +4,7 @@ import type { SelectStatusProps } from "./types";
 import type { CardPriority, CardStatus } from "../../../types/types";
 
 export default function SelectStatus({
-  items,
+  data,
   value,
   onChange,
   required = false,
@@ -23,9 +23,19 @@ export default function SelectStatus({
       onChange={handleChange}
       required={required}
     >
-      {items.map((item) => (
+      {data.map((item) => (
         <option key={item} value={item}>
-          {item}
+          {item === "low"
+            ? "낮음"
+            : item === "medium"
+            ? "중간"
+            : item === "high"
+            ? "높음"
+            : item === "todo"
+            ? "할 일"
+            : item === "in-progress"
+            ? "진행 중"
+            : "완료"}
         </option>
       ))}
     </select>
