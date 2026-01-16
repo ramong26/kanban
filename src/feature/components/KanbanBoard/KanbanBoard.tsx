@@ -4,11 +4,11 @@ import type { DropResult } from "@hello-pangea/dnd";
 
 import Collumn from "./Collumn";
 
-import { mockCards } from "../../../shared/mock";
 import type { CardProps, CardStatus } from "../../../types/types";
 
-const columnTitles = ["To Do", "In Progress", "Done"];
+const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
+const columnTitles = ["To Do", "In Progress", "Done"];
 const statusMap: Record<string, string> = {
   "To Do": "todo",
   "In Progress": "in-progress",
@@ -16,9 +16,24 @@ const statusMap: Record<string, string> = {
 };
 
 function getInitialData() {
-  const data: Record<string, CardProps[]> = {};
+  const data: Record<string, CardProps[]> | undefined = {};
+  const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+  if (raw) {
+    try {
+      const allCards = JSON.parse(raw);
+      columnTitles.forEach((title) => {
+        data[title] = allCards[title] || [];
+      });
+      return data;
+    } catch {
+      columnTitles.forEach((title) => {
+        data[title] = [];
+      });
+      return data;
+    }
+  }
   columnTitles.forEach((title) => {
-    data[title] = mockCards.filter((c) => c.status === statusMap[title]);
+    data[title] = [];
   });
   return data;
 }
@@ -26,6 +41,7 @@ function getInitialData() {
 export default function KanbanBoard() {
   const [columns, setColumns] = useState(getInitialData());
 
+  // Drag and Drop Handler
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
@@ -34,13 +50,17 @@ export default function KanbanBoard() {
     const destCol = destination.droppableId;
 
     if (sourceCol === destCol) {
-      const newCards = Array.from(columns[sourceCol]);
+      const newCards = Array.from(columns[sourceCol] || []);
       const [moved] = newCards.splice(source.index, 1);
       newCards.splice(destination.index, 0, moved);
       setColumns({ ...columns, [sourceCol]: newCards });
+      localStorage.setItem(
+        LOCAL_STORAGE_CARDS_KEY,
+        JSON.stringify({ ...columns, [sourceCol]: newCards })
+      );
     } else {
-      const sourceCards = Array.from(columns[sourceCol]);
-      const destCards = Array.from(columns[destCol]);
+      const sourceCards = Array.from(columns[sourceCol] || []);
+      const destCards = Array.from(columns[destCol] || []);
       const [moved] = sourceCards.splice(source.index, 1);
       moved.status = statusMap[destCol] as CardStatus;
       destCards.splice(destination.index, 0, moved);
@@ -49,6 +69,14 @@ export default function KanbanBoard() {
         [sourceCol]: sourceCards,
         [destCol]: destCards,
       });
+      localStorage.setItem(
+        LOCAL_STORAGE_CARDS_KEY,
+        JSON.stringify({
+          ...columns,
+          [sourceCol]: sourceCards,
+          [destCol]: destCards,
+        })
+      );
     }
   };
 

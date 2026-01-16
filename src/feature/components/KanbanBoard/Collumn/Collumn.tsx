@@ -35,11 +35,11 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-lg p-4 w-80 min-h-[200px] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg p-4 w-80 min-h-[200px] h-[1500px] flex flex-col">
         <div className="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
           <h2 className="text-lg font-bold text-gray-800">{title}</h2>
         </div>
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-3 overflow-auto">
           {cards && cards.length > 0 ? (
             cards.map((item: CardProps, idx: number) => (
               <Draggable key={item.id} draggableId={item.id} index={idx}>
