@@ -58,27 +58,33 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
 
   // Delete Card Handler (Delete Card)
   const [modalDialogOpen, setModalDialogOpen] = useState(false);
-  const handleDeleteCard = useCallback(
-    (id: string) => {
-      const updatedCards = cards.filter((card) => card.id !== id);
-      setCards(updatedCards);
+  const [cardToDelete, setCardToDelete] = useState<string | null>(null);
 
-      const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
-      let allCards: Record<string, CardProps[]> = {};
-      if (raw) {
-        try {
-          allCards = JSON.parse(raw);
-        } catch {
-          allCards = {};
-        }
+  const handleDeleteCard = useCallback((id: string) => {
+    setCardToDelete(id);
+    setModalDialogOpen(true);
+  }, []);
+
+  const confirmDeleteCard = useCallback(() => {
+    if (!cardToDelete) return;
+    const updatedCards = cards.filter((card) => card.id !== cardToDelete);
+    setCards(updatedCards);
+
+    const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
+    let allCards: Record<string, CardProps[]> = {};
+    if (raw) {
+      try {
+        allCards = JSON.parse(raw);
+      } catch {
+        allCards = {};
       }
+    }
+    allCards[title] = updatedCards;
+    localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
+    setCardToDelete(null);
+    setModalDialogOpen(false);
+  }, [cards, title, setCards, cardToDelete]);
 
-      allCards[title] = updatedCards;
-      localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
-    },
-
-    [cards, title, setCards]
-  );
   return (
     <>
       <Droppable droppableId={title}>
@@ -99,8 +105,8 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
             </div>
             <div className="flex-1 space-y-3 overflow-auto">
               {cards && cards.length > 0 ? (
-                cards.map((item: CardProps, idx: number) => (
-                  <Draggable key={item.id} draggableId={item.id} index={idx}>
+                cards.map((data: CardProps, idx: number) => (
+                  <Draggable key={data.id} draggableId={data.id} index={idx}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -113,9 +119,9 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
                         }`}
                       >
                         <Card
-                          item={item}
+                          data={data}
                           onUpdate={onUpdateCard}
-                          onDelete={() => setModalDialogOpen(true)}
+                          onDelete={() => handleDeleteCard(data.id)}
                         />
                       </div>
                     )}
@@ -152,12 +158,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           title="카드 삭제"
           isOpen={modalDialogOpen}
           onClose={() => setModalDialogOpen(false)}
-          onConfirm={() => {
-            handleDeleteCard(
-              cards.find((card) => card.id === cards[0].id)?.id || ""
-            );
-            setModalDialogOpen(false);
-          }}
+          onConfirm={confirmDeleteCard}
         />
       )}
     </>
