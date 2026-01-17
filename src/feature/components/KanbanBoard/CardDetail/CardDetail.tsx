@@ -38,20 +38,20 @@ export default function CardDetail({
         </div>
         <div className="flex gap-4 text-sm text-gray-500 mb-2">
           <span>
-            <b>상태:</b>{" "}
+            <b>상태:</b>
             {data.status === "todo"
               ? "할 일"
               : data.status === "in-progress"
-              ? "진행 중"
-              : "완료"}
+                ? "진행 중"
+                : "완료"}
           </span>
           <span>
-            <b>우선순위:</b>{" "}
+            <b>우선순위:</b>
             {data.priority === "low"
               ? "낮음"
               : data.priority === "medium"
-              ? "중간"
-              : "높음"}
+                ? "중간"
+                : "높음"}
           </span>
         </div>
         <div className="flex gap-4 text-sm text-gray-400">
@@ -59,9 +59,9 @@ export default function CardDetail({
             <b>담당자:</b> {data.assignee || "-"}
           </span>
           <span>
-            <b>마감일:</b>{" "}
-            {data.dateCreated
-              ? new Date(data.dateCreated).toLocaleDateString("ko-KR")
+            <b>생성날짜:</b>
+            {data.createdAt
+              ? new Date(data.createdAt).toLocaleDateString("ko-KR")
               : "-"}
           </span>
         </div>
