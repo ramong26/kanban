@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import type { DropResult } from "@hello-pangea/dnd";
 
 import Collumn from "./Collumn";
+
+import { useStaticsStore } from "../../../stores/staticsStore";
 
 import type { CardProps, CardStatus } from "../../../types/types";
 import { mockCards } from "../../../shared/mock";
@@ -84,6 +86,20 @@ export default function KanbanBoard() {
       );
     }
   };
+
+  // Statics Store
+  const { setTotalCards, setTodoCards, setInProgressCards, setDoneCards } =
+    useStaticsStore();
+
+  useEffect(() => {
+    const allCards = Object.values(columns).flat();
+    setTotalCards(allCards.length);
+    setTodoCards(allCards.filter((card) => card.status === "todo").length);
+    setInProgressCards(
+      allCards.filter((card) => card.status === "in-progress").length,
+    );
+    setDoneCards(allCards.filter((card) => card.status === "done").length);
+  }, [columns, setTotalCards, setTodoCards, setInProgressCards, setDoneCards]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

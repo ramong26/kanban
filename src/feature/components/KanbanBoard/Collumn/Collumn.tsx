@@ -7,6 +7,7 @@ import Dialog from "../../../../shared/components/Dialog";
 import SelectStatus from "../../../../shared/components/SelectStatus/SelectStatus";
 
 import { useSearchStore } from "../../../../stores/searchStore";
+
 import type { CollumnProps } from "./types";
 import type {
   CardProps,

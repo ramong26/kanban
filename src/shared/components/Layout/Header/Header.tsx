@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+
 import { useSearchStore } from "../../../../stores/searchStore";
+import { useStaticsStore } from "../../../../stores/staticsStore";
 
 export default function Header() {
   // Search Handler
@@ -25,10 +27,19 @@ export default function Header() {
     return () => clearTimeout(debouncedSave);
   }, [searchQuery, setQuery, searchResults, setSearchResults]);
 
+  // Statics Store
+  const { totalCards, todoCards, inProgressCards, doneCards } =
+    useStaticsStore();
+
   return (
     <header className="bg-gradient-to-r from-purple-200 via-pink-200 to-blue-200 p-8 shadow-sm">
       <div className="transition-all flex  justify-between max-w-7xl mx-auto md:flex-row md:gap-0 flex-col gap-4 md:items-start items-center">
-        <span className="text-4xl  font-bold  text-purple-800 ">칸반 보드</span>
+        <div>
+          <span className="text-4xl  font-bold  text-purple-800 ">
+            칸반 보드
+          </span>
+          <div>{`전체: ${totalCards} | 할 일: ${(todoCards / totalCards) * 100}% | 진행 중: ${(inProgressCards / totalCards) * 100}% | 완료: ${(doneCards / totalCards) * 100}%`}</div>
+        </div>
         <div className="flex flex-col items-end">
           <input
             type="search"
