@@ -1,4 +1,4 @@
-import type { CardProps } from "../../../../types/types";
+import type { CardProps } from "@/types/types";
 
 export interface BaseCardProps {
   data: CardProps;

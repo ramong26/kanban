@@ -3,13 +3,12 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 import Card from "../Card";
 import CardNewModal from "../CardNewModal";
-import Dialog from "../../../../shared/components/Dialog";
-import SelectStatus from "../../../../shared/components/SelectStatus/SelectStatus";
+import Dialog from "@/shared/components/Dialog";
+import SelectStatus from "@/shared/components/SelectStatus";
 
-import { useSearchStore } from "../../../../stores/searchStore";
-
+import { useSearchStore } from "@/stores/searchStore";
 import type { ColumnProps } from "./types";
-import type { CardProps, CardPriority } from "../../../../types/types";
+import type { CardProps, CardPriority } from "@/types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 

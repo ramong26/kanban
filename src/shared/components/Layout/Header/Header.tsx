@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useSearchStore } from "../../../../stores/searchStore";
-import { useStaticsStore } from "../../../../stores/staticsStore";
+import { useSearchStore } from "@/stores/searchStore";
+import { useStaticsStore } from "@/stores/staticsStore";
 
 export default function Header() {
   // Search Handler

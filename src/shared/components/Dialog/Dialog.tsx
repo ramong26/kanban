@@ -1,4 +1,4 @@
-import { useModalEsc } from "../../hooks/useModalEsc";
+import { useModalEsc } from "@/shared/hooks/useModalEsc";
 import type { DialogProps } from "./types";
 
 export default function Dialog({

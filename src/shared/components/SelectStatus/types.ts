@@ -1,4 +1,4 @@
-import type { CardPriority } from "../../../types/types";
+import type { CardPriority } from "@/types/types";
 
 export interface SelectStatusProps {
   data: CardPriority[];

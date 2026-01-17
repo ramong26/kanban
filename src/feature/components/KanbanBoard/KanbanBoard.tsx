@@ -4,10 +4,10 @@ import type { DropResult } from "@hello-pangea/dnd";
 
 import Column from "./Column";
 
-import { useStaticsStore } from "../../../stores/staticsStore";
+import { useStaticsStore } from "@/stores/staticsStore";
 
-import type { CardProps, CardStatus } from "../../../types/types";
-import { mockCards } from "../../../shared/mock";
+import type { CardProps, CardStatus } from "@/types/types";
+import { mockCards } from "@/shared/mock";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 

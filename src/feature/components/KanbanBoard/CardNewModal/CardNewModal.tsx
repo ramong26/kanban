@@ -1,12 +1,10 @@
 import { useCallback, useRef, useState } from "react";
 
-import SelectStatus from "../../../../shared/components/SelectStatus";
+import SelectStatus from "@/shared/components/SelectStatus";
+
 import type { CardNewModalProps } from "./types";
-import type { CardPriority } from "../../../../types/types";
-import {
-  useModalEsc,
-  handleOverlayClick,
-} from "../../../../shared/hooks/useModalEsc";
+import type { CardPriority } from "@/types/types";
+import { useModalEsc, handleOverlayClick } from "@/shared/hooks/useModalEsc";
 
 export default function CardNewModal({
   isOpen,

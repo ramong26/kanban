@@ -1,4 +1,4 @@
-import { useModalEsc } from "../../../../shared/hooks/useModalEsc";
+import { useModalEsc } from "@/shared/hooks/useModalEsc";
 import type { CardDetailProps } from "./types";
 
 export default function CardDetail({

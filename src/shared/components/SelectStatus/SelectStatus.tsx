@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import type { SelectStatusProps } from "./types";
-import type { CardPriority } from "../../../types/types";
+import type { CardPriority } from "@/types/types";
 
 export default function SelectStatus({
   data,
