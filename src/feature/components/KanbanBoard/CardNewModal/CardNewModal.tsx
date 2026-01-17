@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from "react";
 
 import SelectStatus from "../../../../shared/components/SelectStatus";
 import type { CardNewModalProps } from "./types";
-import type { CardStatus, CardPriority } from "../../../../types/types";
+import type { CardPriority } from "../../../../types/types";
 import {
   useModalEsc,
   handleOverlayClick,
@@ -25,19 +25,16 @@ export default function CardNewModal({
   const tagsRef = useRef<HTMLInputElement>(null);
   const assigneeRef = useRef<HTMLInputElement>(null);
 
-  const [status, setStatus] = useState<CardStatus>(
-    isEdit
-      ? props.data.status
-      : props.col === "To Do"
+  const status =
+    props.type === "create"
+      ? props.col === "할 일"
         ? "todo"
-        : props.col === "In Progress"
+        : props.col === "진행 중"
           ? "in-progress"
-          : "done",
-  );
-  const statusOptions: CardStatus[] = ["todo", "in-progress", "done"];
-  const onSelectStatus = useCallback((status: string) => {
-    setStatus(status as CardStatus);
-  }, []);
+          : "done"
+      : isEdit
+        ? props.data.status
+        : "todo";
 
   const [priority, setPriority] = useState<CardPriority>(
     isEdit ? props.data.priority : "low",
@@ -46,7 +43,7 @@ export default function CardNewModal({
   const onSelectPriority = useCallback((priority: string) => {
     setPriority(priority as CardPriority);
   }, []);
-  console.log("CardNewModal Rendered:", props);
+
   // Form submission handler
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -166,15 +163,6 @@ export default function CardNewModal({
           <span className="text-xs text-gray-400">
             쉼표(,)로 구분하여 여러 태그를 입력할 수 있습니다.
           </span>
-        </label>
-
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-bold text-purple-700">상태</span>
-          <SelectStatus
-            data={statusOptions}
-            value={status}
-            onChange={onSelectStatus}
-          />
         </label>
         <label className="flex flex-col gap-2">
           <span className="text-sm font-bold text-purple-700">우선순위</span>

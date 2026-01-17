@@ -38,7 +38,7 @@ export default function Header() {
           <span className="text-4xl  font-bold  text-purple-800 ">
             칸반 보드
           </span>
-          <div>{`전체: ${totalCards} | 할 일: ${(todoCards / totalCards) * 100}% | 진행 중: ${(inProgressCards / totalCards) * 100}% | 완료: ${(doneCards / totalCards) * 100}%`}</div>
+          <div>{`전체: ${totalCards} | 할 일: ${((todoCards / totalCards) * 100).toFixed(2)}% | 진행 중: ${((inProgressCards / totalCards) * 100).toFixed(2)}% | 완료: ${((doneCards / totalCards) * 100).toFixed(2)}%`}</div>
         </div>
         <div className="flex flex-col items-end">
           <input
