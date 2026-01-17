@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import type { DropResult } from "@hello-pangea/dnd";
 
-import Collumn from "./Collumn";
+import Column from "./Column";
 
 import { useStaticsStore } from "../../../stores/staticsStore";
 
@@ -112,7 +112,7 @@ export default function KanbanBoard() {
                 {...provided.droppableProps}
                 className="m-0"
               >
-                <Collumn
+                <Column
                   title={title}
                   cards={columns[title]}
                   setCards={(cards) =>
