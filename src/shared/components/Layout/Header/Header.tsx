@@ -27,15 +27,13 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-r from-purple-200 via-pink-200 to-blue-200 p-8 shadow-sm">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold tracking-tight text-purple-800">
-          칸반 보드
-        </h1>
+      <div className="transition-all flex  justify-between max-w-7xl mx-auto md:flex-row md:gap-0 flex-col gap-4 md:items-start items-center">
+        <span className="text-4xl  font-bold  text-purple-800 ">칸반 보드</span>
         <div className="flex flex-col items-end">
           <input
             type="search"
             placeholder="검색..."
-            className="px-6 py-3 rounded-2xl border-2 border-purple-200 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 text-gray-700 placeholder-gray-400 transition-all w-96"
+            className="w-full px-6 py-3 rounded-2xl border-2 border-purple-200 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 text-gray-700 placeholder-gray-400 transition-all w-96"
             value={searchQuery}
             onChange={handleChange}
           />

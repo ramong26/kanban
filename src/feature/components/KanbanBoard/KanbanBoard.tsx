@@ -61,7 +61,7 @@ export default function KanbanBoard() {
       setColumns({ ...columns, [sourceCol]: newCards });
       localStorage.setItem(
         LOCAL_STORAGE_CARDS_KEY,
-        JSON.stringify({ ...columns, [sourceCol]: newCards })
+        JSON.stringify({ ...columns, [sourceCol]: newCards }),
       );
     } else {
       const sourceCards = Array.from(columns[sourceCol] || []);
@@ -80,18 +80,22 @@ export default function KanbanBoard() {
           ...columns,
           [sourceCol]: sourceCards,
           [destCol]: destCards,
-        })
+        }),
       );
     }
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex space-x-4 p-4 bg-gray-100 min-h-screen">
+      <div className="transition-all flex space-x-4 p-4 bg-gray-100 min-h-screen xl:flex-row  flex-col gap-3">
         {columnTitles.map((title) => (
           <Droppable droppableId={title} key={title}>
             {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="m-0"
+              >
                 <Collumn
                   title={title}
                   cards={columns[title]}

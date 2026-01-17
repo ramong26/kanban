@@ -57,14 +57,14 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
       allCards[title] = updatedCards;
       localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
     },
-    [cards, title, setCards]
+    [cards, title, setCards],
   );
 
   // Update Card Handler (Edit Card)
   const onUpdateCard = useCallback(
     (updatedCard: CardProps) => {
       const updatedCards = cards.map((card) =>
-        card.id === updatedCard.id ? updatedCard : card
+        card.id === updatedCard.id ? updatedCard : card,
       );
       setCards(updatedCards);
       const raw = localStorage.getItem(LOCAL_STORAGE_CARDS_KEY);
@@ -79,7 +79,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
       allCards[title] = updatedCards;
       localStorage.setItem(LOCAL_STORAGE_CARDS_KEY, JSON.stringify(allCards));
     },
-    [cards, title, setCards]
+    [cards, title, setCards],
   );
 
   // Delete Card Handler (Delete Card)
@@ -118,7 +118,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`rounded-2xl shadow-sm p-6 w-[450px] min-h-[300px] h-[65vh] flex flex-col transition-all
+            className={`rounded-2xl shadow-sm p-6 min-h-[300px] h-[65vh] flex flex-col transition-all
               ${
                 snapshot.isDraggingOver
                   ? "border-2 border-purple-300 bg-purple-50"
@@ -126,8 +126,10 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
               }
             `}
           >
-            <div className="flex justify-between items-center mb-5 pb-4 border-b-2 border-purple-200">
-              <h2 className="text-2xl font-bold text-purple-700">{title}</h2>
+            <div className="flex gap-3 justify-between items-center mb-5 pb-4 border-b-2 border-purple-200">
+              <span className="transition-all md:text-2xl text-xl font-bold text-purple-700 whitespace-nowrap overflow-hidden text-ellipsis">
+                {title}
+              </span>
 
               <div className="flex items-center gap-3">
                 <SelectStatus
