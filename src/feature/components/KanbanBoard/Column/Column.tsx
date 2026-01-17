@@ -8,7 +8,7 @@ import SelectStatus from "../../../../shared/components/SelectStatus/SelectStatu
 
 import { useSearchStore } from "../../../../stores/searchStore";
 
-import type { CollumnProps } from "./types";
+import type { ColumnProps } from "./types";
 import type {
   CardProps,
   CardPriority,
@@ -17,7 +17,7 @@ import type {
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
-export default function Collumn({ title, cards, setCards }: CollumnProps) {
+export default function Column({ title, cards, setCards }: ColumnProps) {
   const [openCardModal, setOpenCardModal] = useState(false);
 
   // Search and Filter

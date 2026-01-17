@@ -12,7 +12,7 @@ import { mockCards } from "../../../shared/mock";
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
 const columnTitles = ["To Do", "In Progress", "Done"];
-const statusMap: Record<string, string> = {
+const statusMap: Record<string, CardStatus> = {
   "To Do": "todo",
   "In Progress": "in-progress",
   Done: "done",
