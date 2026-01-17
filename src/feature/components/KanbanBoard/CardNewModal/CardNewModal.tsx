@@ -16,7 +16,6 @@ export default function CardNewModal({
 }: CardNewModalProps) {
   const isEdit = props.type === "edit" && "data" in props;
   const onDelete = isEdit && "onDelete" in props ? props.onDelete : undefined;
-
   useModalEsc(onClose, isOpen);
 
   // Refs for form fields
@@ -24,9 +23,16 @@ export default function CardNewModal({
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
   const tagsRef = useRef<HTMLInputElement>(null);
+  const assigneeRef = useRef<HTMLInputElement>(null);
 
   const [status, setStatus] = useState<CardStatus>(
-    isEdit ? props.data.status : "todo"
+    isEdit
+      ? props.data.status
+      : props.col === "To Do"
+        ? "todo"
+        : props.col === "In Progress"
+          ? "in-progress"
+          : "done",
   );
   const statusOptions: CardStatus[] = ["todo", "in-progress", "done"];
   const onSelectStatus = useCallback((status: string) => {
@@ -34,13 +40,13 @@ export default function CardNewModal({
   }, []);
 
   const [priority, setPriority] = useState<CardPriority>(
-    isEdit ? props.data.priority : "low"
+    isEdit ? props.data.priority : "low",
   );
   const priorityOptions: CardPriority[] = ["low", "medium", "high"];
   const onSelectPriority = useCallback((priority: string) => {
     setPriority(priority as CardPriority);
   }, []);
-
+  console.log("CardNewModal Rendered:", props);
   // Form submission handler
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -49,6 +55,7 @@ export default function CardNewModal({
       const isEdit = props.type === "edit" && "data" in props;
       const title = titleRef.current?.value.trim() || "";
       const description = descriptionRef.current?.value.trim() || "";
+      const assignee = assigneeRef.current?.value.trim() || "";
       const dateCreated = dateRef.current?.value || "";
       const tags = tagsRef.current?.value
         ? tagsRef.current.value.split(",").map((tag) => tag.trim())
@@ -64,6 +71,7 @@ export default function CardNewModal({
           priority,
           updatedAt: new Date().toISOString(),
           tags,
+          assignee,
         });
       } else {
         onSubmit({
@@ -76,12 +84,12 @@ export default function CardNewModal({
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           tags,
+          assignee,
         });
       }
     },
-    [props, status, priority, onSubmit]
+    [props, status, priority, onSubmit],
   );
-
   return (
     <div
       className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
@@ -135,6 +143,15 @@ export default function CardNewModal({
             defaultValue={isEdit ? props.data.dateCreated : ""}
             ref={dateRef}
             type="date"
+            className="border-2 border-purple-200 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white transition-all"
+          />
+        </label>
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-bold text-purple-700">할당된 사람</span>
+          <input
+            defaultValue={isEdit ? props.data.assignee : ""}
+            ref={assigneeRef}
+            type="text"
             className="border-2 border-purple-200 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white transition-all"
           />
         </label>

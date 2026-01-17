@@ -14,6 +14,7 @@ interface EditCardNewModalProps extends BaseCardNewModalProps {
 
 interface CreateCardNewModalProps extends BaseCardNewModalProps {
   type: "create";
+  col: string;
 }
 
 export type CardNewModalProps = CreateCardNewModalProps | EditCardNewModalProps;

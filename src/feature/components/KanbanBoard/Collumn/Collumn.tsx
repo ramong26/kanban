@@ -195,6 +195,7 @@ export default function Collumn({ title, cards, setCards }: CollumnProps) {
       {openCardModal && (
         <CardNewModal
           type="create"
+          col={title}
           isOpen={openCardModal}
           onClose={() => setOpenCardModal(false)}
           onSubmit={(card) => {
