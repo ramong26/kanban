@@ -5,7 +5,6 @@ export interface CardProps {
   id: string;
   title: string;
   status: CardStatus;
-  dateCreated: string;
   priority: CardPriority;
   createdAt: string;
   updatedAt: string;

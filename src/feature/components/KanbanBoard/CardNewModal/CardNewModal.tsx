@@ -53,7 +53,7 @@ export default function CardNewModal({
       const title = titleRef.current?.value.trim() || "";
       const description = descriptionRef.current?.value.trim() || "";
       const assignee = assigneeRef.current?.value.trim() || "";
-      const dateCreated = dateRef.current?.value || "";
+      const createdAt = dateRef.current?.value || "";
       const tags = tagsRef.current?.value
         ? tagsRef.current.value.split(",").map((tag) => tag.trim())
         : [];
@@ -63,7 +63,7 @@ export default function CardNewModal({
           ...props.data,
           title: title || props.data.title,
           description: description || props.data.description,
-          dateCreated: dateCreated || props.data.dateCreated,
+          createdAt: createdAt || props.data.createdAt,
           status,
           priority,
           updatedAt: new Date().toISOString(),
@@ -75,7 +75,6 @@ export default function CardNewModal({
           id: crypto.randomUUID(),
           title,
           description,
-          dateCreated,
           status,
           priority,
           createdAt: new Date().toISOString(),
@@ -134,15 +133,7 @@ export default function CardNewModal({
             maxLength={200}
           />
         </label>
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-bold text-purple-700">마감 날짜</span>
-          <input
-            defaultValue={isEdit ? props.data.dateCreated : ""}
-            ref={dateRef}
-            type="date"
-            className="border-2 border-purple-200 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-300 bg-white transition-all"
-          />
-        </label>
+
         <label className="flex flex-col gap-2">
           <span className="text-sm font-bold text-purple-700">할당된 사람</span>
           <input
