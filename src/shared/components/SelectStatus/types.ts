@@ -1,8 +1,8 @@
-import type { CardStatus, CardPriority } from "../../../types/types";
+import type { CardPriority } from "../../../types/types";
 
 export interface SelectStatusProps {
-  data: CardStatus[] | CardPriority[];
-  value: CardStatus | CardPriority;
-  onChange: (status: CardStatus | CardPriority) => void;
+  data: CardPriority[];
+  value: CardPriority;
+  onChange: (status: CardPriority) => void;
   required?: boolean;
 }

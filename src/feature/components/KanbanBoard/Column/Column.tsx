@@ -9,11 +9,7 @@ import SelectStatus from "../../../../shared/components/SelectStatus/SelectStatu
 import { useSearchStore } from "../../../../stores/searchStore";
 
 import type { ColumnProps } from "./types";
-import type {
-  CardProps,
-  CardPriority,
-  CardStatus,
-} from "../../../../types/types";
+import type { CardProps, CardPriority } from "../../../../types/types";
 
 const LOCAL_STORAGE_CARDS_KEY = "kanban-cards";
 
@@ -27,12 +23,6 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
   const [priority, setPriority] = useState<CardPriority>("all");
   const onSelectPriority = useCallback((value: string) => {
     setPriority(value as CardPriority);
-  }, []);
-
-  const statusOptions: CardStatus[] = ["all", "todo", "in-progress", "done"];
-  const [status, setStatus] = useState<CardStatus>("all");
-  const onSelectStatus = useCallback((value: string) => {
-    setStatus(value as CardStatus);
   }, []);
 
   const filteredCards = cards
@@ -53,6 +43,7 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
           allCards = JSON.parse(raw);
         } catch {
           allCards = {};
+          console.error("Failed to parse local storage data");
         }
       }
       allCards[title] = updatedCards;
@@ -75,6 +66,7 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
           allCards = JSON.parse(raw);
         } catch {
           allCards = {};
+          console.error("Failed to parse local storage data");
         }
       }
       allCards[title] = updatedCards;
@@ -104,6 +96,7 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
         allCards = JSON.parse(raw);
       } catch {
         allCards = {};
+        console.error("Failed to parse local storage data");
       }
     }
     allCards[title] = updatedCards;
@@ -137,11 +130,6 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
                   data={priorityOptions}
                   value={priority}
                   onChange={onSelectPriority}
-                />
-                <SelectStatus
-                  data={statusOptions}
-                  value={status}
-                  onChange={onSelectStatus}
                 />
               </div>
             </div>

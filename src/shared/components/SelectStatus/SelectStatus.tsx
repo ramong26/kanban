@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import type { SelectStatusProps } from "./types";
-import type { CardPriority, CardStatus } from "../../../types/types";
+import type { CardPriority } from "../../../types/types";
 
 export default function SelectStatus({
   data,
@@ -11,9 +11,9 @@ export default function SelectStatus({
 }: SelectStatusProps) {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      onChange(e.target.value as CardPriority | CardStatus);
+      onChange(e.target.value as CardPriority);
     },
-    [onChange]
+    [onChange],
   );
 
   return (
@@ -32,16 +32,16 @@ export default function SelectStatus({
           {item === "all"
             ? "전체"
             : item === "low"
-            ? "낮음"
-            : item === "medium"
-            ? "중간"
-            : item === "high"
-            ? "높음"
-            : item === "todo"
-            ? "할 일"
-            : item === "in-progress"
-            ? "진행 중"
-            : "완료"}
+              ? "낮음"
+              : item === "medium"
+                ? "중간"
+                : item === "high"
+                  ? "높음"
+                  : item === "todo"
+                    ? "할 일"
+                    : item === "in-progress"
+                      ? "진행 중"
+                      : "완료"}
         </option>
       ))}
     </select>
