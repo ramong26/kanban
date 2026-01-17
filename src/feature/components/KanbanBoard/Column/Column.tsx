@@ -26,8 +26,7 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
 
   const filteredCards = cards
     .filter((card) => card.title.toLowerCase().includes(query.toLowerCase()))
-    .filter((card) => (priority === "all" ? true : card.priority === priority))
-    .filter((card) => (status === "all" ? true : card.status === status));
+    .filter((card) => (priority === "all" ? true : card.priority === priority));
 
   // Add Card Handler
   const handleAddCard = useCallback(
@@ -104,6 +103,7 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
     setModalDialogOpen(false);
   }, [cards, title, setCards, cardToDelete]);
 
+  console.log(cards);
   return (
     <>
       <Droppable droppableId={title}>
@@ -147,19 +147,21 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
                             : ""
                         }`}
                       >
-                        <Card
-                          data={data}
-                          onUpdate={onUpdateCard}
-                          onDelete={() => handleDeleteCard(data.id)}
-                          highlight={
-                            !!(
-                              query &&
-                              data.title
-                                .toLowerCase()
-                                .includes(query.toLowerCase())
-                            )
-                          }
-                        />
+                        {cards && (
+                          <Card
+                            data={data}
+                            onUpdate={onUpdateCard}
+                            onDelete={() => handleDeleteCard(data.id)}
+                            highlight={
+                              !!(
+                                query &&
+                                data.title
+                                  .toLowerCase()
+                                  .includes(query.toLowerCase())
+                              )
+                            }
+                          />
+                        )}
                       </div>
                     )}
                   </Draggable>
