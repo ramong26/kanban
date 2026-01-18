@@ -41,7 +41,6 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
           allCards = JSON.parse(raw);
         } catch {
           allCards = {};
-          console.error("Failed to parse local storage data");
         }
       }
       allCards[title] = updatedCards;
@@ -64,7 +63,6 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
           allCards = JSON.parse(raw);
         } catch {
           allCards = {};
-          console.error("Failed to parse local storage data");
         }
       }
       allCards[title] = updatedCards;
@@ -94,7 +92,6 @@ export default function Column({ title, cards, setCards }: ColumnProps) {
         allCards = JSON.parse(raw);
       } catch {
         allCards = {};
-        console.error("Failed to parse local storage data");
       }
     }
     allCards[title] = updatedCards;
