@@ -9,7 +9,7 @@ Drag & Drop, 검색/필터, localStorage 저장 기능을 포함합니다.
 
 ## 배포 URL
 
-https://your-github-id.github.io/your-repo-name/
+[https://ramong26.github.io/kanban/](https://ramong26.github.io/kanban/)
 
 ---
 
