@@ -24,7 +24,8 @@ Drag & Drop, 검색/필터, localStorage 저장 기능을 포함합니다.
 | DnD | @hello-pangea/dnd |
 | Storage | localStorage |
 
-+) @hello-pangea/dnd 사용이유 : 기존에 사용하려던 react-beautiful-dnd가 React 18 환경에서 정상 동작하지 않아, 해당 라이브러리의 유지보수 포크인 @hello-pangea/dnd를 선택했습니다.
++) @hell-pangea/dnd: 사용이유: 기존에 사용하려던 react-beautiful-dnd가 React 18 환경에서 정상 동작하지 않아, 해당 라이브러리의 유지보수 포크인 @hello-pangea/dnd를 선택했습니다.
+
 ---
 
 ## 개발 기간
